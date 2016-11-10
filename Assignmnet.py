@@ -1,47 +1,23 @@
-class chain_hash_key:
-    def __init__(self, size):
-        self.size = size
-        self.slots = [[None]] * self.size
-        self.data = [[None]] * self.size
+class buble_sort:
+    def __init__(self):
+        self.sorted = True
 
-    def __getitem__(self, item):
-        index = self.hashfunction(item, self.size)
-        inner = self.slots[index]
-        answer = self.data[index]
-        if len(inner) > 1:
-            for x in range(0, len(inner)):
-                if inner[x] == item:
-                    return answer[x]
+    def sort(self, l_list):
+        for x in range(len(l_list)-1, 0, -1):
+            self.sorted = True
+            for i in range(x):
+                if l_list[i] > l_list[i+1]:
+                    holder = l_list[i]
+                    l_list[i]  = l_list[i+1]
+                    l_list[i+1] = holder
+                    self.sorted = False
 
-        else:
-            if inner[0] == item:
-                return answer[0]
+            if self.sorted == True:
+                break
 
 
-    def put(self, key, data):
-        hash_value = self.hashfunction(key, len(self.slots))
+        return l_list
 
-        if self.slots[hash_value] == [None]:
-            self.slots[hash_value] = [key]
-            self.data[hash_value] = [data]
-
-        elif self.slots[hash_value] == [key]:
-            self.data[hash_value] = [data]
-
-        else:
-            self.slots[hash_value].append(key)
-            self.data[hash_value].append(data)
-
-    def hashfunction(self, key, size):
-        return key % size
-
-call = chain_hash_key(10)
-
-call.put(10, "cat")
-call.put(100, "dog")
-call.put(87, "bunny")
-call.put(30, "pig")
-call.put(49, "elephant")
-print call.data
-print call.slots
-print call[30]
+call = buble_sort()
+print call.sort([9, 2, 5, 6, 1, 8, 0, 7, 3, 10])
+print call.sort([1, 2, 3, 4, 6, 5, 7, 8, 9, 10])
